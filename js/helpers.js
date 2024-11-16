@@ -1,3 +1,6 @@
+// @ts-check
+/// <reference path="../node_modules/@types/p5/global.d.ts" />
+
 function keyPressed() {
     // Set spacebar to toggle play/pause of drawing loop
     if (key === ' ') {
@@ -13,4 +16,3 @@ function keyPressed() {
       resetSketch();
     }
   }
-  
