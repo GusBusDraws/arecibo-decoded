@@ -5,5 +5,6 @@ December 2024.
 
 ## Change log
 ### 2024-11-15
+- Add files from p5.js template
 - Add script to convert image to text file
 - Add message image
