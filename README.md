@@ -23,6 +23,7 @@ npm install @types/p5
 
 ## Change log
 ### 2024-11-15
+- Load binary message and flash screen on/off according to digits
 - Add files from p5.js template
 - Add script to convert image to text file
 - Add message image
