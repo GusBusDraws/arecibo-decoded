@@ -5,4 +5,5 @@ December 2024.
 
 ## Change log
 ### 2024-11-15
+- Add script to convert image to text file
 - Add message image
