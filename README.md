@@ -22,6 +22,9 @@ npm install @types/p5
 ```
 
 ## Change log
+### 2024-11-16
+- Add alternating color behind sine wave
+- Add sine wave
 ### 2024-11-15
 - Load binary message and flash screen on/off according to digits
 - Add files from p5.js template
