@@ -2,16 +2,19 @@
 /// <reference path="../node_modules/@types/p5/global.d.ts" />
 
 // let data;
-let data = '1000001';
+// Data string must be longer than the number of width / wavelength
+//  data = '01234567890123456789';
+let data = '100000001';
 // let wavelength = 2 * PI / 0.05;
-let wavelength = 100;
-let speed = 5;
-let xOffset = 0;
-let colorOsc = 1;
+let wavelength = 200;
+let speed = 8;
+let lineWidth = 4;
+let lineColor = '#00f000';
+let bitRangeByIdx = {};
 
-// function preload() {
-//   loadStrings('../message.txt', handleStrings);
-// }
+function preload() {
+  loadStrings('../message.txt', handleStrings);
+}
 
 function setup() {
   createCanvas(800, 600);
@@ -20,22 +23,20 @@ function setup() {
   // frameRate(1);
   // wavelength = TWO_PI / 0.05; // Wavelength of the sine wave (calculated from frequency)
   console.log('Wavelength = '+ wavelength)
-  stroke(255);
-  strokeWeight(5);
   noFill();
   console.log('Press SPACE to stop looping or r to reset.')
   console.log(data)
 }
 
 function draw() {
-  let i = frameCount % data.length;
   background(0);
-  // 1. Iterate across a window moving from right to left
+  // Draw rectangles corresponding to the bits within data moving from right to left
   drawRects(speed*frameCount);
-  drawSineWave(speed*frameCount);
+  drawSineWave();
 }
 
 function drawRects(scrollX) {
+  bitRangeByIdx = {}
   for (let i = 0; i < ceil(width / wavelength) + 1; i++) {
     let viewX;
     let viewIdx;
@@ -56,29 +57,38 @@ function drawRects(scrollX) {
     let rectX = viewX + (i*wavelength)
     let bitIdx = (viewIdx) % data.length;
     let bit = data[bitIdx];
-    let rgb = int(bit) > 0 ? color(0, 200, 0) : color(200, 0, 0);
+    let rgb = int(bit) > 0 ? lineColor : '#000';
     fill(rgb); // Choose color
     stroke(rgb);
     // Draw the rectangle with a height and width of one wavelength
     rect(rectX, (height - wavelength)/2, wavelength, wavelength);
+    bitRangeByIdx[bitIdx] = rectX
   }
 }
 
-function drawSineWave(position) {
-  let windowWidth = position < width ? position : width
-  stroke(255); // Line color
-  strokeWeight(2); // Line thickness
+function drawSineWave() {
+  stroke(lineColor); // Line color
+  strokeWeight(lineWidth); // Line thickness
   noFill();
-  beginShape();
-  // Draw as many wavelengths as necessary to fill the width of the window
-  for (let x = 0; x < windowWidth; x++) {
-    // let angle = (x - position) * 0.05; // Adjust wave frequency
-    let angle = (x - position) / wavelength * (2*PI); // Adjust wave frequency
-    // let y = height / 2 + sin(angle) * 100; // Wave amplitude
-    let y = height / 2 + sin(angle) * wavelength/2; // Wave amplitude
-    vertex(width - x, y); // Plot the vertex
+  console.log(Object.keys(bitRangeByIdx))
+  console.log(bitRangeByIdx[0])
+  for (let bitIdx of Object.keys(bitRangeByIdx)) {
+    let startX = bitRangeByIdx[bitIdx];
+    beginShape();
+    for (let x = startX; x <= startX + wavelength; x++) {
+      let bit = data[bitIdx];
+      let rgb = int(bit) > 0 ? '#000' : lineColor;
+      stroke(rgb);
+      // Modify wavelength based on bit in data (half as long for 1s)
+      let wavelengthMod = int(bit) > 0 ? wavelength/2 : wavelength;
+      // Set wave frequency
+      let angle = (x - startX) / (wavelengthMod) * (2*PI);
+      // Set wave amplitude
+      let y = height / 2 + sin(angle) * wavelength/2;
+      vertex(x, y); // Plot the vertex
+    }
+    endShape();
   }
-  endShape();
 }
 
 function resetSketch() {

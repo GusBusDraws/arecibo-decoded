@@ -22,6 +22,8 @@ npm install @types/p5
 ```
 
 ## Change log
+### 2024-11-27
+- Align sine waves with colors behind
 ### 2024-11-26
 - Fix offset for color behind sine waves
 ### 2024-11-16
