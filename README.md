@@ -21,8 +21,15 @@ Then, install p5:
 npm install @types/p5
 ```
 
+## FFMpeg Commands
+Save images as MP4 at 60 frames per second:
+```shell
+ffmpeg -r 60 -i path/to/images/frame_%003d.png -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" path/to/video.mp4
+```
+
 ## Change log
 ### 2024-11-27
+- Add frame controls and saving
 - Align sine waves with colors behind
 ### 2024-11-26
 - Fix offset for color behind sine waves
