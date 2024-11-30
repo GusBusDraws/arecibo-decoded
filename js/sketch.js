@@ -11,7 +11,8 @@ let speed = 10;
 let fps = 30;
 let lineWidth = 4;
 let lineColor = '#00f000';
-let rectOnColor = '#000'
+let rectOnColor = '#00f000'
+let lineOnColor = '#000'
 let bitRangeByIdx = {};
 let saveFramesBool = false;
 // saveFramesBool = true;
@@ -34,8 +35,8 @@ function draw() {
   background(0);
   // Draw rectangles corresponding to the bits within data moving from right to left
   drawRects(speed*frameX, rectOnColor);
-  drawSineWave();
-  if (saveFramesBool) saveFrame(nFrames);
+  drawSineWave(lineOnColor);
+  if (saveFramesBool) saveNumberedFrame(nFrames);
   frameX++;
 }
 
@@ -70,7 +71,7 @@ function drawRects(scrollX, rectOnColor) {
   }
 }
 
-function drawSineWave() {
+function drawSineWave(lineOnColor) {
   stroke(lineColor); // Line color
   strokeWeight(lineWidth); // Line thickness
   noFill();
@@ -81,8 +82,7 @@ function drawSineWave() {
     beginShape();
     for (let x = startX; x <= startX + wavelength; x++) {
       let bit = data[bitIdx];
-      // let rgb = int(bit) > 0 ? '#000' : lineColor;
-      let rgb = lineColor;
+      let rgb = int(bit) > 0 ? lineOnColor : lineColor;
       stroke(rgb);
       // Modify wavelength based on bit in data (half as long for 1s)
       let wavelengthMod = int(bit) > 0 ? wavelength/2 : wavelength;
