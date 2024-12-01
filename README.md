@@ -28,6 +28,8 @@ name=sine-only-30s && fps=60 && ffmpeg -r $fps -i results/$name\/frame_%004d.png
 ```
 
 ## Change log
+### 2024-11-30
+- Restructure project into separate js files ([freqMod.js](js/freqMod.js) and [stackBits.js](js/stackBits.js))
 ### 2024-11-29
 - Rename save function to `saveNumberedFrame`
 ### 2024-11-27
