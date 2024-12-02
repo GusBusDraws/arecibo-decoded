@@ -3,17 +3,19 @@
 
 function keyPressed() {
     // Set spacebar to toggle play/pause of drawing loop
-    if (key === ' ') {
-      if (isLooping()) {
-        noLoop();
-        console.log('STOPPED. Press SPACE to resume.')
-      } else {
-        loop();
-        console.log('RESUMED. Press SPACE to stop.')
-      }
-    }
-    if (key === 'r') {
-      resetSketch();
+    switch (key) {
+      case ' ':
+        if (isLooping()) {
+          noLoop();
+          console.log('STOPPED. Press SPACE to resume.')
+        } else {
+          loop();
+          console.log('RESUMED. Press SPACE to stop.')
+        }
+      case 'r':
+        resetSketch();
+      case 'd':
+        debug = debug ? false : true;
     }
   }
 
