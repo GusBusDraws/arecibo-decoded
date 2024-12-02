@@ -13,6 +13,9 @@ function setup() {
   createCanvas(canvasWidth, canvasHeight);
   resetSketch();
   frameRate(fps);
+  textFont('Consolas');
+  textAlign(CENTER, CENTER);
+  textSize(15);
   console.log('Wavelength = '+ wavelength)
   console.log('Press SPACE to stop looping or r to reset.')
   console.log(data)
@@ -28,6 +31,7 @@ function draw() {
 function resetSketch() {
   background(0);
   frameX = 0;
+  resetStackBits();
 }
 
 function handleStrings(strings) {

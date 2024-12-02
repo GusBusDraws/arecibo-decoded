@@ -3,6 +3,7 @@
 
 speed = 10;
 frameX = 0;
+let nStacked = 32;
 let stackHeight = 10;
 let margins = 50;
 let bitWidth = (canvasHeight - 2*margins) / stackHeight;
@@ -13,18 +14,16 @@ let stackIdx = 0;
 let updateFrame  = 0;
 let newBitIdx = 0;
 let newBitLoc = 0;
-let nStacked = 32;
 let debug = true;
 
 function runStackBits() {
   // Draw already stacked bits
   drawStacked(nStacked);
   // Move the next bit into place
-  // updateLoc(newBitIdx, newBitLoc);
-  // updateStacking(stackIdx);
-  // stackIdx++;
-  drawLine(nStacked);
-  updateLoc(speed*frameX);
+  [frameX, nStacked] = drawIncoming(frameX, nStacked);
+  if (nStacked == 60) {
+    nStacked = 0;
+  }
 }
 
 function drawStacked(nStacked) {
@@ -40,38 +39,55 @@ function drawStacked(nStacked) {
     if (debug) {
       fill('red');
       noStroke();
-      textAlign(CENTER, CENTER);
-      textSize(15);
       text(i, x+bitWidth/2, y+bitWidth/2);
     }
   }
 }
 
-function drawLine(nStacked) {
+function drawIncoming(frameX, nStacked) {
+  let scrollX = speed*frameX;
+  // Ref: absolute coordinates start with x/y, relative coords end with X/Y
   let i = nStacked
   let x0 = canvasWidth
   let y0 = canvasHeight/2 - bitWidth/2
-  let x1 = margins + bitWidth * floor(i / stackHeight)
-  let y1 = canvasHeight - (margins + bitWidth + bitWidth * (i % stackHeight))
-  if (debug) {
-    stroke('red');
-    line(x0, y0, x1, y1);
+  let xf = margins + bitWidth * floor(i / stackHeight)
+  let yf = canvasHeight - (margins + bitWidth + bitWidth * (i % stackHeight))
+  // Ref: SOH CAH TOA, sin(angle) = opposite/hypotenuse
+  let endAdj = yf - y0;
+  let endOpp = x0 - xf;
+  let endHyp = sqrt(endAdj**2 + endOpp**2);
+  let angle = asin(endOpp/endHyp);
+  // For updating bit loc, triangle is scrollY (A), scrollX (O), scrollHyp (H)
+  // Ref: sin(angle) = scrollX / scrollHyp
+  let scrollHyp = scrollX / sin(angle)
+  // Ref: cos(angle) = scrollY / scrollHyp
+  let scrollY = scrollHyp * cos(angle)
+  let xBit = x0 - scrollX;
+  let yBit;
+  if (yf >= y0) {
+    yBit = y0 + scrollY;
+  } else {
+    yBit = y0 - scrollY;
   }
-}
-
-function updateLoc(scrollX) {
-  let x = canvasWidth - scrollX
-  let y = canvasHeight/2 - bitWidth/2
-  stroke('black');
-  fill(bitColor);
-  rect(x, y, bitWidth, bitWidth);
+  if (xBit > xf) {
+    fill(bitColor);
+    stroke(0);
+    rect(xBit, yBit, bitWidth, bitWidth);
+    frameX++;
+  } else {
+    frameX = 0;
+    nStacked++;
+  }
   if (debug) {
     stroke('red');
     noFill();
-    text(x, canvasWidth-50, canvasHeight-50);
+    line(x0, y0, xf, yf);
+    text('hyp: '+endHyp, canvasWidth/2, canvasHeight/2);
   }
+  return [frameX, nStacked]
 }
 
-function updateStacking(idx) {
-  
+function resetStackBits() {
+  frameX = 0;
+  nStacked = 0;
 }
