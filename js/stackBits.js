@@ -1,51 +1,57 @@
 // @ts-check
 /// <reference path="../node_modules/@types/p5/global.d.ts" />
 
-speed = 10;
+speed = 50;
 frameX = 0;
 let nBits;
 let nStacked = 0;
-let stackHeight = 35;
-let bitWidth = canvasHeight / (stackHeight+2);
-let margins = bitWidth;
+let stackHeight = 50;
+let bitWidth = 10;
+let marginX = 20;
+let marginY = ( canvasHeight - (stackHeight*bitWidth) ) / 2
 let bitLocs = [];
 let bitColor = lineColor;
 let stackIdx = 0;
 let updateFrame  = 0;
 let newBitIdx = 0;
 let newBitLoc = 0;
-let debug = true;
+let debug = false;
+let tSize = 2*bitWidth;
 
 function runStackBits() {
   // Draw already stacked bits
   drawStacked(nStacked);
   // Move the next bit into place
-  // [frameX, nStacked] = drawIncoming(frameX, nStacked);
-  // if (nStacked == nBits) {
-  //   nStacked = 0;
-  // }
+  [frameX, nStacked] = drawIncoming(frameX, nStacked);
+  if (nStacked == nBits) {
+    nStacked = 0;
+  }
 }
 
 function drawStacked(nStacked) {
   let x, y;
   for (let i = 0; i < nStacked; i++) {
     setBitColor(i);
-    x = margins + bitWidth * floor(i / stackHeight)
+    x = marginX + bitWidth * floor(i / stackHeight)
     // The extra bitWidth shifts the bits the necessary amount for drawing
     // from bottom to top since the (x, y) corresponds to the top left corner
-    y = canvasHeight - (margins + bitWidth + bitWidth * (i % stackHeight))
+    y = canvasHeight - (marginY + bitWidth + bitWidth * (i % stackHeight))
     rect(x, y, bitWidth, bitWidth);
     if (debug) {
       fill('red');
       noStroke();
-      text(i, x+bitWidth/2, y+bitWidth/2);
+      textAlign(CENTER, CENTER);
+      textSize(tSize);
+      // text(i, x+bitWidth/2, y+bitWidth/2);
     }
   }
   if (debug) {
     noStroke();
     fill('red');
-    textAlign(LEFT)
-    text('nStacked = '+nStacked, margins, canvasHeight-margins);
+    textAlign(LEFT);
+    textSize(tSize);
+    text('nStacked = '+nStacked, marginX, canvasHeight-marginX);
+    text('bitWidth = '+bitWidth, marginX, canvasHeight-marginX-tSize);
   }
 }
 
@@ -55,8 +61,8 @@ function drawIncoming(frameX, nStacked) {
   let i = nStacked
   let x0 = canvasWidth
   let y0 = canvasHeight/2 - bitWidth/2
-  let xf = margins + bitWidth * floor(i / stackHeight)
-  let yf = canvasHeight - (margins + bitWidth + bitWidth * (i % stackHeight))
+  let xf = marginX + bitWidth * floor(i / stackHeight)
+  let yf = canvasHeight - (marginY + bitWidth + bitWidth * (i % stackHeight))
   // Ref: SOH CAH TOA, sin(angle) = opposite/hypotenuse
   let endAdj = yf - y0;
   let endOpp = x0 - xf;
@@ -84,9 +90,11 @@ function drawIncoming(frameX, nStacked) {
   }
   if (debug) {
     stroke('red');
-    noFill();
     line(x0, y0, xf, yf);
-    text('hyp: '+endHyp, 5/6*canvasWidth, canvasHeight-margins);
+    noStroke();
+    fill('red');
+    textAlign(RIGHT);
+    text('hyp: '+endHyp, canvasWidth-marginX, canvasHeight-marginX);
   }
   return [frameX, nStacked]
 }

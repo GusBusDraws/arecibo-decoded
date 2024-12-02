@@ -3,6 +3,7 @@
 
 let saveFramesBool = false;
 // saveFramesBool = true;
+let fps = 60;
 let nFrames = 60 * 30; // animation fps * n seconds
 
 function preload() {
