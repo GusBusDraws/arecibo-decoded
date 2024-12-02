@@ -7,15 +7,18 @@ function keyPressed() {
       case ' ':
         if (isLooping()) {
           noLoop();
-          console.log('STOPPED. Press SPACE to resume.')
+          console.log('STOPPED. Press SPACE to resume.');
         } else {
           loop();
-          console.log('RESUMED. Press SPACE to stop.')
+          console.log('RESUMED. Press SPACE to stop.');
         }
+        break;
       case 'r':
         resetSketch();
+        break;
       case 'd':
         debug = debug ? false : true;
+        break;
     }
   }
 
