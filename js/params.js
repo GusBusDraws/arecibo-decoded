@@ -4,11 +4,9 @@
   ////////////////////////
  // General parameters //
 ////////////////////////
+let data = '';
 let canvasWidth = 800;
 let canvasHeight = 600;
-// Data string must be longer than the number of width / wavelength
-//         '01234567890123456789';
-let data = '100000001';
 let frameX = 0;
 let speed = 10;
 let fps = 60;

@@ -4,7 +4,7 @@
 speed = 10;
 frameX = 0;
 let nStacked = 32;
-let stackHeight = 10;
+let stackHeight = 23;
 let margins = 50;
 let bitWidth = (canvasHeight - 2*margins) / stackHeight;
 let bitLocs = [];
@@ -21,7 +21,7 @@ function runStackBits() {
   drawStacked(nStacked);
   // Move the next bit into place
   [frameX, nStacked] = drawIncoming(frameX, nStacked);
-  if (nStacked == 60) {
+  if (nStacked == nBits) {
     nStacked = 0;
   }
 }
@@ -29,8 +29,7 @@ function runStackBits() {
 function drawStacked(nStacked) {
   let x, y;
   for (let i = 0; i < nStacked; i++) {
-    fill(bitColor);
-    stroke('black');
+    setBitColor(i);
     x = margins + bitWidth * floor(i / stackHeight)
     // The extra bitWidth shifts the bits the necessary amount for drawing
     // from bottom to top since the (x, y) corresponds to the top left corner
@@ -70,8 +69,7 @@ function drawIncoming(frameX, nStacked) {
     yBit = y0 - scrollY;
   }
   if (xBit > xf) {
-    fill(bitColor);
-    stroke(0);
+    setBitColor(nStacked);
     rect(xBit, yBit, bitWidth, bitWidth);
     frameX++;
   } else {
@@ -82,9 +80,20 @@ function drawIncoming(frameX, nStacked) {
     stroke('red');
     noFill();
     line(x0, y0, xf, yf);
-    text('hyp: '+endHyp, canvasWidth/2, canvasHeight/2);
+    text('hyp: '+endHyp, 5/6*canvasWidth, canvasHeight-margins);
   }
   return [frameX, nStacked]
+}
+
+function setBitColor(bitIdx) {
+  let bit = data[bitIdx]
+  if (int(bit) > 0) {
+    fill(bitColor);
+    stroke(0);
+  } else {
+    fill(0);
+    stroke(bitColor);
+  }
 }
 
 function resetStackBits() {

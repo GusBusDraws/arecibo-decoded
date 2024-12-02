@@ -29,6 +29,7 @@ name=sine-only-30s && fps=60 && ffmpeg -r $fps -i results/$name\/frame_%004d.png
 
 ## Change log
 ### 2024-12-02
+- Correlate stacking bits with data
 - Add bit stacking
 ### 2024-11-30
 - Restructure project into separate js files ([freqMod.js](js/freqMod.js) and [stackBits.js](js/stackBits.js))

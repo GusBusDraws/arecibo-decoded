@@ -10,6 +10,7 @@ function preload() {
 }
 
 function setup() {
+  // data = '0101';
   createCanvas(canvasWidth, canvasHeight);
   resetSketch();
   frameRate(fps);
