@@ -3,12 +3,12 @@
 
 speed = 10;
 frameX = 0;
-let nStacked = 32;
-let stackHeight = 23;
-let margins = 50;
-let bitWidth = (canvasHeight - 2*margins) / stackHeight;
+let nBits;
+let nStacked = 0;
+let stackHeight = 35;
+let bitWidth = canvasHeight / (stackHeight+2);
+let margins = bitWidth;
 let bitLocs = [];
-let nBits = data.length;
 let bitColor = lineColor;
 let stackIdx = 0;
 let updateFrame  = 0;
@@ -20,10 +20,10 @@ function runStackBits() {
   // Draw already stacked bits
   drawStacked(nStacked);
   // Move the next bit into place
-  [frameX, nStacked] = drawIncoming(frameX, nStacked);
-  if (nStacked == nBits) {
-    nStacked = 0;
-  }
+  // [frameX, nStacked] = drawIncoming(frameX, nStacked);
+  // if (nStacked == nBits) {
+  //   nStacked = 0;
+  // }
 }
 
 function drawStacked(nStacked) {
@@ -40,6 +40,12 @@ function drawStacked(nStacked) {
       noStroke();
       text(i, x+bitWidth/2, y+bitWidth/2);
     }
+  }
+  if (debug) {
+    noStroke();
+    fill('red');
+    textAlign(LEFT)
+    text('nStacked = '+nStacked, margins, canvasHeight-margins);
   }
 }
 
@@ -97,6 +103,7 @@ function setBitColor(bitIdx) {
 }
 
 function resetStackBits() {
+  nBits = data.length;
   frameX = 0;
-  nStacked = 0;
+  nStacked = nBits;
 }
