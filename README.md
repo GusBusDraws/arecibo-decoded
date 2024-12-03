@@ -29,6 +29,7 @@ name=sine-only-30s && fps=60 && ffmpeg -r $fps -i results/$name\/frame_%004d.png
 
 ## Change log
 ### 2024-12-02
+- Add [resizeStacks.js](js/resizeStacks.js)
 - Add breaks to `keyPressed` switch
 - Determine x and y margins procedurally to set wrap
 - Make `keyPressed` a switch and add debug case for 'd'

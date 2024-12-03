@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference path="../node_modules/@types/p5/global.d.ts" />
 
-speed = 50;
+speed = 100;
 frameX = 0;
 let nBits;
 let nStacked = 0;
@@ -20,15 +20,19 @@ let tSize = 2*bitWidth;
 
 function runStackBits() {
   // Draw already stacked bits
-  drawStacked(nStacked);
-  // Move the next bit into place
-  [frameX, nStacked] = drawIncoming(frameX, nStacked);
-  if (nStacked == nBits) {
-    nStacked = 0;
+  drawStacked(nStacked, stackHeight);
+  if (nStacked < stackHeight) {
+    // Move the next bit into place
+    [frameX, nStacked] = drawIncoming(frameX, nStacked);
+  } else if (nStacked < nBits) {
+    // [frameX, nStacked] = drawIncoming(frameX, nStacked);
+    nStacked+=2;
+  } else {
+    // nStacked = 0;
   }
 }
 
-function drawStacked(nStacked) {
+function drawStacked(nStacked, stackHeight) {
   let x, y;
   for (let i = 0; i < nStacked; i++) {
     setBitColor(i);
@@ -85,8 +89,8 @@ function drawIncoming(frameX, nStacked) {
     rect(xBit, yBit, bitWidth, bitWidth);
     frameX++;
   } else {
-    frameX = 0;
     nStacked++;
+    frameX = 0;
   }
   if (debug) {
     stroke('red');
@@ -113,5 +117,5 @@ function setBitColor(bitIdx) {
 function resetStackBits() {
   nBits = data.length;
   frameX = 0;
-  nStacked = nBits;
+  nStacked = 0;
 }
