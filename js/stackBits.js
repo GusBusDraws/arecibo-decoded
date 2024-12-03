@@ -1,22 +1,37 @@
 // @ts-check
 /// <reference path="../node_modules/@types/p5/global.d.ts" />
 
-speed = 100;
-frameX = 0;
 let nBits;
-let nStacked = 0;
-let stackHeight = 50;
-let bitWidth = 10;
-let marginX = 20;
-let marginY = ( canvasHeight - (stackHeight*bitWidth) ) / 2
+let nStacked;
+let stackHeight;
+let bitWidth;
+let marginX;
+let marginY;
 let bitLocs = [];
-let bitColor = lineColor;
-let stackIdx = 0;
-let updateFrame  = 0;
-let newBitIdx = 0;
-let newBitLoc = 0;
-let debug = false;
-let tSize = 2*bitWidth;
+let bitColor;
+let stackIdx;
+let updateFrame;
+let newBitIdx;
+let newBitLoc;
+let tSize;
+
+function resetStackBits() {
+  speed = 100;
+  frameX = 0;
+  nBits = data.length;
+  frameX = 0;
+  nStacked = 0;
+  stackHeight = 50;
+  bitWidth = 10;
+  marginX = 20;
+  marginY = getMarginY(stackHeight);
+  bitColor = lineColor;
+  stackIdx = 0;
+  updateFrame  = 0;
+  newBitIdx = 0;
+  newBitLoc = 0;
+  tSize = 2*bitWidth;
+}
 
 function runStackBits() {
   // Draw already stacked bits
@@ -28,7 +43,7 @@ function runStackBits() {
     // [frameX, nStacked] = drawIncoming(frameX, nStacked);
     nStacked+=2;
   } else {
-    // nStacked = 0;
+    nStacked = 0;
   }
 }
 
@@ -57,6 +72,10 @@ function drawStacked(nStacked, stackHeight) {
     text('nStacked = '+nStacked, marginX, canvasHeight-marginX);
     text('bitWidth = '+bitWidth, marginX, canvasHeight-marginX-tSize);
   }
+}
+
+function getMarginY(stackHeight) {
+  return ( canvasHeight - (stackHeight*bitWidth) ) / 2
 }
 
 function drawIncoming(frameX, nStacked) {
@@ -112,10 +131,4 @@ function setBitColor(bitIdx) {
     fill(0);
     stroke(bitColor);
   }
-}
-
-function resetStackBits() {
-  nBits = data.length;
-  frameX = 0;
-  nStacked = 0;
 }

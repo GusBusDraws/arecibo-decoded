@@ -26,8 +26,8 @@ function setup() {
 function draw() {
   background(0);
   // runFreqMod();
-  // runStackBits();
-  runResizeStacks();
+  runStackBits();
+  // runResizeStacks();
   if (saveFramesBool) saveNumberedFrame(nFrames);
 }
 

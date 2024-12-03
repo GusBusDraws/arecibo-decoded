@@ -9,6 +9,7 @@ let canvasWidth = 800;
 let canvasHeight = 600;
 let frameX = 0;
 let speed = 10;
+let debug = false;
 
   ////////////////////////
  // freqMod parameters //
