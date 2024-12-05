@@ -1,33 +1,57 @@
 // @ts-check
 /// <reference path="../node_modules/@types/p5/global.d.ts" />
 
-let stackAdvance;
+// Introduce variable for counting frames since last advance/stack resize
+let advanceCounter;
+// Introduce variable to trigger resize when counter reaches threshold
+let advanceThreshold;
 
 function resetResizeStacks() {
   console.log('Running resetResizeStacks...')
   speed = 100;
   frameX = 0;
   stackHeight = 50;
-  stackAdvance = 0;
+  advanceCounter = 0;
   nBits = data.length;
   bitColor = lineColor;
+  bitWidth = 10;
+  marginX = 20;
   frameX = 0;
   nStacked = nBits;
   stackHeight = 50;
-  stackAdvance = 0;
+  advanceCounter = 0;
+  advanceThreshold = 20;
 }
 
 function runResizeStacks() {
   console.log('Running runResizeStacks...')
+  if (debug) {
+    textAlign(CENTER, CENTER);
+    fill(lineColor);
+    noStroke();
+    text('nStacked = '+nStacked, canvasWidth/2, canvasHeight/2)
+  }
   // Calc marginY based on stackHeight
   marginY = getMarginY(stackHeight);
   // Draw already stacked bits
   drawStacked(nStacked, stackHeight);
-  if (stackAdvance == 20) {
+  // Decrement stackHeight once advanceCounter efresh
+  if (advanceCounter == advanceThreshold) {
     stackHeight--;
-    stackAdvance = 0;
+    advanceCounter = 0;
   }
-  if (stackHeight != 23) {
-    stackAdvance++;
+  // Increment advanceCounter until stackHeight become 23 (width of message)
+  if (stackHeight > 23) {
+    advanceCounter++;
+  }
+  // Stop saving if reaches end of first stack or end of data
+  if (
+      !continueAfterFirstStack && nStacked > 0 && nStacked == stackHeight
+    ) {
+    console.log(
+      'Reached stopping condition (nStacked='+nStacked+
+      '). Setting finalsavedFrame to false.'
+    );
+    finalSavedFrame = true;
   }
 }
