@@ -1,4 +1,5 @@
 examples/
 node_modules/
+results/
 package-lock.json
 package.json
