@@ -34,8 +34,8 @@ function resetStackBits() {
   newBitIdx = 0;
   newBitLoc = 0;
   tSize = 2*bitWidth;
-  stackFirstOnly();
-  // fastStacksAfterFirst()
+  // stackFirstOnly();
+  fastStacksAfterFirst()
 }
 
 function stackFirstOnly() {
