@@ -18,6 +18,7 @@ let stackInc;
 let drawIncomingAfterFirstStack;
 let continueAfterFirstStack;
 let resetAfterLastBit;
+let stopSaveCond;
 
 function resetStackBits() {
   frameX = 0;
@@ -33,8 +34,8 @@ function resetStackBits() {
   newBitIdx = 0;
   newBitLoc = 0;
   tSize = 2*bitWidth;
-  // stackFirstOnly();
-  fastStacksAfterFirst()
+  stackFirstOnly();
+  // fastStacksAfterFirst()
 }
 
 function stackFirstOnly() {
@@ -56,8 +57,6 @@ function fastStacksAfterFirst() {
 }
 
 function runStackBits() {
-  // Draw already stacked bits
-  drawStacked(nStacked, stackHeight);
   if (nStacked < stackHeight) {
     // Move the next bit into place
     [frameX, nStacked] = drawIncoming(frameX, nStacked);
@@ -72,6 +71,26 @@ function runStackBits() {
     if (resetAfterLastBit) {
       nStacked = 0;
     }
+  }
+  // Draw already stacked bits
+  drawStacked(nStacked, stackHeight);
+  // Stop saving if reaches end of first stack or end of data
+  if (
+      !continueAfterFirstStack && nStacked > 0 && nStacked == stackHeight
+    ) {
+    console.log(
+      'Reached stopping condition (nStacked='+nStacked+
+      '). Setting finalsavedFrame to false.'
+    );
+    finalSavedFrame = true;
+  } else if (
+    nStacked > 0 && nStacked == nBits
+  ) {
+    console.log(
+      'Reached stopping condition (nStacked='+nStacked+
+      '). Setting finalSavedFrame to false.'
+    );
+    finalSavedFrame = true;
   }
 }
 

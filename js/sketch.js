@@ -3,7 +3,12 @@
 
 let saveFramesBool = false;
 // saveFramesBool = true;
-let fps = 60;
+let fps;
+if (saveFramesBool) {
+  fps = 30;
+} else {
+  fps = 60;
+}
 let nFrames = 60 * 30; // animation fps * n seconds
 
 function preload() {
@@ -29,6 +34,7 @@ function draw() {
   runStackBits();
   // runResizeStacks();
   if (saveFramesBool) saveNumberedFrame(nFrames);
+  if (finalSavedFrame) saveFramesBool = false;
 }
 
 function resetSketch() {
