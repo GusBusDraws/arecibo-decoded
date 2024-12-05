@@ -29,6 +29,7 @@ name=sine-only-30s && fps=60 && ffmpeg -r $fps -i results/$name\/frame_%004d.png
 
 ## Change log
 ### 2024-12-05
+- Add message for toggling debug mode
 - Fix order of drawing to solve bit stacking a frame late
 - Add presets to separate first stack animation from following stacks
 ### 2024-12-02

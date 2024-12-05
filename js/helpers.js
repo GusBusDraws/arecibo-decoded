@@ -18,6 +18,7 @@ function keyPressed() {
         break;
       case 'd':
         debug = debug ? false : true;
+        console.log('Debug mode toggled to '+debug);
         break;
     }
   }
