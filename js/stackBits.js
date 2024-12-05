@@ -14,13 +14,15 @@ let updateFrame;
 let newBitIdx;
 let newBitLoc;
 let tSize;
+let stackInc;
+let drawIncomingAfterFirstStack;
+let continueAfterFirstStack;
+let resetAfterLastBit;
 
 function resetStackBits() {
-  speed = 100;
   frameX = 0;
   nBits = data.length;
   frameX = 0;
-  nStacked = 0;
   stackHeight = 50;
   bitWidth = 10;
   marginX = 20;
@@ -31,6 +33,26 @@ function resetStackBits() {
   newBitIdx = 0;
   newBitLoc = 0;
   tSize = 2*bitWidth;
+  // stackFirstOnly();
+  fastStacksAfterFirst()
+}
+
+function stackFirstOnly() {
+  nStacked = 0;
+  speed = 100;
+  stackInc = 1;
+  drawIncomingAfterFirstStack = false;
+  continueAfterFirstStack = false;
+  resetAfterLastBit = false;
+}
+
+function fastStacksAfterFirst() {
+  nStacked = 50;
+  speed = 100;
+  stackInc = 3;
+  drawIncomingAfterFirstStack = false;
+  continueAfterFirstStack = true;
+  resetAfterLastBit = false;
 }
 
 function runStackBits() {
@@ -40,10 +62,16 @@ function runStackBits() {
     // Move the next bit into place
     [frameX, nStacked] = drawIncoming(frameX, nStacked);
   } else if (nStacked < nBits) {
-    // [frameX, nStacked] = drawIncoming(frameX, nStacked);
-    nStacked+=2;
+    if (drawIncomingAfterFirstStack) {
+      [frameX, nStacked] = drawIncoming(frameX, nStacked);
+    }
+    if (continueAfterFirstStack) {
+      nStacked+=stackInc;
+    }
   } else {
-    nStacked = 0;
+    if (resetAfterLastBit) {
+      nStacked = 0;
+    }
   }
 }
 

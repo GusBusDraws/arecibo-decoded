@@ -35,7 +35,7 @@ function resetSketch() {
   background(0);
   frameX = 0;
   resetStackBits();
-  resetResizeStacks();
+  // resetResizeStacks();
 }
 
 function handleStrings(strings) {

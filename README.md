@@ -28,6 +28,8 @@ name=sine-only-30s && fps=60 && ffmpeg -r $fps -i results/$name\/frame_%004d.png
 ```
 
 ## Change log
+### 2024-12-05
+- Add presets to separate first stack animation from following stacks
 ### 2024-12-02
 - Wrap parameters into reset functions
 - Add [resizeStacks.js](js/resizeStacks.js)
