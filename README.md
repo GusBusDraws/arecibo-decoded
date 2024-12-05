@@ -29,6 +29,7 @@ name=sine-only-30s && fps=60 && ffmpeg -r $fps -i results/$name\/frame_%004d.png
 
 ## Change log
 ### 2024-12-05
+- Add [scroll.js](js/scroll.js) to scroll message up and down continuously
 - Rename counter and threshold variable for refreshing stack height when resizing
 - Add message for toggling debug mode
 - Fix order of drawing to solve bit stacking a frame late
