@@ -25,3 +25,11 @@ let bitRangeByIdx = {};
   ////////////////////////////
  // stackPixels parameters //
 ////////////////////////////
+
+  ///////////////////////
+ // scroll parameters //
+///////////////////////
+
+// This variable can be toggled with a 'c' key press to change
+// direction by altering the iteration of offsetCounter defined in scroll.js
+let changeDirection = 1;

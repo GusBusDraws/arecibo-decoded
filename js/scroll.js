@@ -29,13 +29,15 @@ function resetScroll() {
 function runScroll() {
   console.log('Running runResizeStacks...')
   // Draw message according to offset
-  drawMessage(offsetCounter);
+  drawMessage();
   offsetY = speed*offsetCounter;
   if (offsetY <= minOffset || offsetY > maxOffset) {
     scrollDirection *= -1;
     offsetY = speed*offsetCounter;
   }
-  offsetCounter += scrollDirection;
+  // changeDirection is defined in params.js and can be changed by keyPressed()
+  // with a press of the 'c' key
+  offsetCounter += scrollDirection * changeDirection;
   if (debug) {
     noStroke();
     fill('red');
@@ -62,7 +64,7 @@ function getMarginX(stackWidth) {
   return ( canvasWidth - (stackWidth*bitWidth) ) / 2
 }
 
-function drawMessage(offsetCounter) {
+function drawMessage() {
   let x, y;
   for (let i = 0; i < nBits; i++) {
     setBitColor(i);

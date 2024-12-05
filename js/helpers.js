@@ -20,6 +20,10 @@ function keyPressed() {
         debug = debug ? false : true;
         console.log('Debug mode toggled to '+debug);
         break;
+      case 'c':
+        changeDirection *= -1;
+        console.log('Changing direction.');
+        break;
     }
   }
 
