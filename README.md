@@ -41,6 +41,7 @@ ffmpeg -i final-cut.mp4 -filter_complex "[0:v]split[v1][v2];[v2]reverse[vrev];[v
 
 ## Change log
 ### 2024-12-06
+- Add option to increase or decrease speed with arrow keys
 - Enable fullscreen
 - Add message data to a preload function to enable loading without server
 - Add video reverse function to README

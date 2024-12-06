@@ -25,6 +25,13 @@ function keyPressed() {
         console.log('Changing direction.');
         break;
     }
+    if (keyCode === UP_ARROW) {
+      speed++;
+      console.log('Increasing speed.');
+    } else if (keyCode === DOWN_ARROW) {
+      speed--;
+      console.log('Decreasing speed.');
+    }
   }
 
   function saveNumberedFrame(nFrames) {
