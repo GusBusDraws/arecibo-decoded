@@ -34,9 +34,14 @@ Concatenate files in .txt:
 ```shell
 ffmpeg -f concat -i results/file_list.txt -c copy final-cut.mp4
 ```
+Concatenate reversed video with forward video:
+```shell
+ffmpeg -i final-cut.mp4 -filter_complex "[0:v]split[v1][v2];[v2]reverse[vrev];[v1][vrev]concat=n=2:v=1[outv]" -map "[outv]" final-cut-w-reverse.mp4
+```
 
 ## Change log
 ### 2024-12-06
+- Add video reverse function to README
 - Start scroll with message off the screen
 - Add stop condition for animating scrolling
 - Add stop condition for animating stack resizing
