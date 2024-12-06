@@ -41,6 +41,8 @@ ffmpeg -i final-cut.mp4 -filter_complex "[0:v]split[v1][v2];[v2]reverse[vrev];[v
 
 ## Change log
 ### 2024-12-06
+- Enable fullscreen
+- Add message data to a preload function to enable loading without server
 - Add video reverse function to README
 - Start scroll with message off the screen
 - Add stop condition for animating scrolling

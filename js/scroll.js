@@ -20,10 +20,13 @@ function resetScroll() {
   changeDirection = 1;
   nBits = data.length;
   bitColor = lineColor;
-  bitWidth = 30;
+  // bitWidth = 30;
+  bitWidth = canvasWidth / 30;
   stackWidth = 23;
-  marginY = 60;
+  // marginY = 60;
   marginX = getMarginX(stackWidth);
+  // marginY = bitWidth*2;
+  marginY = marginX;
   offsetCounter = 0;
   offsetY = 0;
   startOffset = canvasHeight;
