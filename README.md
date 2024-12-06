@@ -37,6 +37,8 @@ ffmpeg -f concat -i results/file_list.txt -c copy final-cut.mp4
 
 ## Change log
 ### 2024-12-06
+- Start scroll with message off the screen
+- Add stop condition for animating scrolling
 - Add stop condition for animating stack resizing
 - Add concatenation FFMpeg commands to README
 ### 2024-12-05

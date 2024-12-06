@@ -9,10 +9,15 @@ let minOffset;
 let maxOffset;
 // With origin at top left corner, -1 is up
 let scrollDirection = 1;
+let startOffset;
+// Add boolean to prevent direction from changing before message is scrolled
+// completely onto the screen for the first time
+let scrollingIntoPlace;
 
 function resetScroll() {
   console.log('Running resetResizeStacks...')
   speed = -2;
+  changeDirection = 1;
   nBits = data.length;
   bitColor = lineColor;
   bitWidth = 30;
@@ -21,20 +26,40 @@ function resetScroll() {
   marginX = getMarginX(stackWidth);
   offsetCounter = 0;
   offsetY = 0;
-  minOffset = -1 * (bitWidth*floor(nBits/stackWidth) - canvasHeight + 2*marginY);
+  startOffset = canvasHeight;
+  minOffset = startOffset - (bitWidth*floor(nBits/stackWidth) + 2*marginY);
   maxOffset = 0;
-  tSize = bitWidth/2;
+  tSize = bitWidth;
+  scrollingIntoPlace = true;
 }
 
 function runScroll() {
-  console.log('Running runResizeStacks...')
-  // Draw message according to offset
-  drawMessage();
-  offsetY = speed*offsetCounter;
-  if (offsetY <= minOffset || offsetY > maxOffset) {
-    scrollDirection *= -1;
-    offsetY = speed*offsetCounter;
+  // Adjust offset
+  offsetY = speed*offsetCounter + startOffset;
+  // Stop saving if scroll reveals end of message
+  if (offsetY <= minOffset) {
+    console.log(
+      'Reached stopping condition (offsetY='+offsetY+
+      '). Setting finalsavedFrame to false.'
+    );
+    finalSavedFrame = true;
   }
+  // Control direction changes
+  if (offsetY <= minOffset) {
+    scrollDirection *= -1;
+    // offsetY = speed*offsetCounter;
+  } else if (!scrollingIntoPlace && offsetY > maxOffset) {
+    scrollDirection *= -1;
+    // offsetY = speed*offsetCounter;
+  }
+  // Track the first time offsetY drops below zero
+  // (once it fully stretches across the screen) to prevent direction from
+  // changing prematurely
+  if (offsetY < 0) {
+    scrollingIntoPlace = false;
+  }
+  // Draw message according to offset
+  drawMessage(offsetY);
   // changeDirection is defined in params.js and can be changed by keyPressed()
   // with a press of the 'c' key
   offsetCounter += scrollDirection * changeDirection;
@@ -43,20 +68,14 @@ function runScroll() {
     fill('red');
     textAlign(LEFT, CENTER);
     textSize(tSize);
-    text('offsetCounter = '+offsetCounter, canvasWidth/2, canvasHeight/2);
-    text('minOffset = '+minOffset, canvasWidth/2, canvasHeight/2+tSize);
-    text('speed = '+speed, canvasWidth/2, canvasHeight/2+2*tSize);
-    text('offsetY = '+offsetY, canvasWidth/2, canvasHeight/2+3*tSize);
-  }
-  // Stop saving if reaches end of first stack or end of data
-  if (
-      !continueAfterFirstStack && nStacked > 0 && nStacked == stackWidth
-    ) {
-    console.log(
-      'Reached stopping condition (nStacked='+nStacked+
-      '). Setting finalsavedFrame to false.'
+    text('offsetCounter = '+offsetCounter, marginX, marginY);
+    text('minOffset = '+minOffset, marginX, marginY+tSize);
+    text('offsetY = '+offsetY, marginX, marginY+2*tSize);
+    text(
+      'scrollingIntoPlace = '+scrollingIntoPlace,
+      marginX,
+      marginY+3*tSize
     );
-    finalSavedFrame = true;
   }
 }
 
@@ -64,7 +83,7 @@ function getMarginX(stackWidth) {
   return ( canvasWidth - (stackWidth*bitWidth) ) / 2
 }
 
-function drawMessage() {
+function drawMessage(offsetY) {
   let x, y;
   for (let i = 0; i < nBits; i++) {
     setBitColor(i);
