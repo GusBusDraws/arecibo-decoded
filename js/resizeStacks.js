@@ -24,34 +24,35 @@ function resetResizeStacks() {
 }
 
 function runResizeStacks() {
-  console.log('Running runResizeStacks...')
   if (debug) {
-    textAlign(CENTER, CENTER);
-    fill(lineColor);
+    textAlign(RIGHT);
+    fill('red');
     noStroke();
-    text('nStacked = '+nStacked, canvasWidth/2, canvasHeight/2)
+    text(
+      'stackHeight = '+stackHeight,
+      canvasWidth-marginX,
+      canvasHeight-2*bitWidth
+    )
   }
   // Calc marginY based on stackHeight
   marginY = getMarginY(stackHeight);
   // Draw already stacked bits
   drawStacked(nStacked, stackHeight);
-  // Decrement stackHeight once advanceCounter efresh
-  if (advanceCounter == advanceThreshold) {
-    stackHeight--;
-    advanceCounter = 0;
-  }
   // Increment advanceCounter until stackHeight become 23 (width of message)
   if (stackHeight > 23) {
     advanceCounter++;
   }
   // Stop saving if reaches end of first stack or end of data
-  if (
-      !continueAfterFirstStack && nStacked > 0 && nStacked == stackHeight
-    ) {
+  if (stackHeight == 23) {
     console.log(
-      'Reached stopping condition (nStacked='+nStacked+
+      'Reached stopping condition (stackHeight='+stackHeight+
       '). Setting finalsavedFrame to false.'
     );
     finalSavedFrame = true;
+  }
+  // Decrement stackHeight once advanceCounter refresh
+  if (advanceCounter == advanceThreshold) {
+    stackHeight--;
+    advanceCounter = 0;
   }
 }

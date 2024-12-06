@@ -32,7 +32,8 @@ function draw() {
   background(0);
   // runFreqMod();
   // runStackBits();
-  runResizeStacks();
+  // runResizeStacks();
+  runScroll();
   if (saveFramesBool) saveNumberedFrame(nFrames);
   if (finalSavedFrame) saveFramesBool = false;
 }
@@ -41,7 +42,8 @@ function resetSketch() {
   background(0);
   frameX = 0;
   // resetStackBits();
-  resetResizeStacks();
+  // resetResizeStacks();
+  resetScroll();
 }
 
 function handleStrings(strings) {
