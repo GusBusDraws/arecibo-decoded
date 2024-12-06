@@ -26,8 +26,18 @@ Save images as MP4 at 60 frames per second:
 ```shell
 name=sine-only-30s && fps=60 && ffmpeg -r $fps -i results/$name\/frame_%004d.png -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" results/$name\-$fps\fps.mp4
 ```
+Trim from 10 to 20 seconds:
+```shell
+ffmpeg -ss 10 -i video.mp4 -t 10 -c copy video-trimmed.mp4
+```
+Concatenate files in .txt:
+```shell
+ffmpeg -f concat -i results/file_list.txt -c copy final-cut.mp4
+```
 
 ## Change log
+### 2024-12-06
+- Add concatenation FFMpeg commands to README
 ### 2024-12-05
 - Add `changeDirection` variable to [params.js](js/params.js) that can be toggled with a 'c' key press
 - Add [scroll.js](js/scroll.js) to scroll message up and down continuously
