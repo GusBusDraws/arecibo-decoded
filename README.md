@@ -37,6 +37,7 @@ ffmpeg -f concat -i results/file_list.txt -c copy final-cut.mp4
 
 ## Change log
 ### 2024-12-06
+- Add stop condition for animating stack resizing
 - Add concatenation FFMpeg commands to README
 ### 2024-12-05
 - Add `changeDirection` variable to [params.js](js/params.js) that can be toggled with a 'c' key press
